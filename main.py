@@ -28,17 +28,23 @@ player_walk_right = [
 
 animation_start = 0
 
+fon_x = 0
+
 pygame.display.set_icon(icon)
 
 # Main game loop
 # это главный игровой цикл который продолжает работать и следит за обновлениями в игре и событиями типа выхода из игры
 while True:
-    screen.blit(screen_fon,(0,0))
+    screen.blit(screen_fon,(fon_x,0))
+    screen.blit(screen_fon,(fon_x - 1200,0))
     screen.blit(player_walk_left[animation_start],(280,200))
     if animation_start == 3:
         animation_start = 0
     else:
         animation_start = animation_start + 1
+    fon_x = fon_x + 5
+    if fon_x == 1200:
+        fon_x = 0
     pygame.display.update()
     # этот цикл следит за выход из игры
     for event in pygame.event.get():
