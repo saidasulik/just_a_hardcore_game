@@ -30,6 +30,9 @@ animation_start = 0
 
 fon_x = 0
 
+fon_sound = pygame.mixer.Sound('sounds/fon_music.mp3')
+fon_sound.play()
+
 pygame.display.set_icon(icon)
 
 # Main game loop
