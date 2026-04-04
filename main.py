@@ -11,6 +11,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 # эта команда создаёт название окна
 pygame.display.set_caption("JUST A HARDCORE GAME")
 screen_fon = pygame.image.load("img/fon.jpg")
+vrag_privedenie = pygame.image.load("img/ghost.png")
 icon = pygame.image.load("img/vecteezy_imaginative-and-lovable-game-character-for-tshirt-graphic_27294895.png")
 player_walk_left = [
     pygame.transform.scale(pygame.image.load("img/player_left/9.png"),(player_width,player_height)),
@@ -32,8 +33,13 @@ animation_start = 0
 
 fon_x = 0
 
-player_speed = 10
+vrag_privedenie_x = 1040
+
+player_speed = 20
 player_x = 280
+player_y = 260
+is_jump = False
+jump_height = 10
 
 #fon_sound = pygame.mixer.Sound('sounds/')
 #fon_sound.play()
@@ -46,11 +52,13 @@ while True:
     screen.blit(screen_fon,(fon_x,0))
     screen.blit(screen_fon,(fon_x + 1200,0))
 
+    screen.blit(vrag_privedenie,(vrag_privedenie_x,0))
+
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        screen.blit(player_walk_left[animation_start],(player_x,200))
+        screen.blit(player_walk_left[animation_start],(player_x,player_y))
     else:
-        screen.blit(player_walk_right[animation_start],(player_x,200))
+        screen.blit(player_walk_right[animation_start],(player_x,player_y))
         
     if keys[pygame.K_LEFT] and player_x > -150:
         player_x = player_x - player_speed
@@ -60,13 +68,28 @@ while True:
         player_x = player_x + player_speed
         print(player_x)
 
+    if not is_jump:
+        if keys[pygame.K_SPACE]:
+            is_jump = True
+            print('прыжок')
+    else:
+        if jump_height >= -10:
+            if jump_height > 0:
+                player_y = player_y - (jump_height**2) / 2
+            else:
+              player_y = player_y + (jump_height**2) / 2  
+            jump_height = jump_height - 1
+        else:
+            is_jump = False
+            jump_height = 10
     if animation_start == 3:
         animation_start = 0
     else:
         animation_start = animation_start + 1
-    fon_x = fon_x + 5
-    if fon_x == 1200:
+    fon_x = fon_x - 5
+    if fon_x == -1200:
         fon_x = 0
+    vrag_privedenie_x = vrag_privedenie_x - 10
     pygame.display.update()
     # этот цикл следит за выход из игры
     for event in pygame.event.get():
