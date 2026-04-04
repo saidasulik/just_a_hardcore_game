@@ -20,18 +20,23 @@ player_walk_left = [
 
 ]
 player_walk_right = [
-    pygame.image.load("img/player_right/5 (2).png"),
-    pygame.image.load("img/player_right/6.png"),
-    pygame.image.load("img/player_right/7.png"),
-    pygame.image.load("img/player_right/8.png")
+
+    pygame.transform.scale(pygame.image.load("img/player_right/5 (2).png"),(player_width,player_height)),
+    pygame.transform.scale(pygame.image.load("img/player_right/6.png"),(player_width,player_height)),
+    pygame.transform.scale(pygame.image.load("img/player_right/7.png"),(player_width,player_height)),
+    pygame.transform.scale(pygame.image.load("img/player_right/8.png"),(player_width,player_height))
+
 ]
 
 animation_start = 0
 
 fon_x = 0
 
-fon_sound = pygame.mixer.Sound('sounds/fon_music.mp3')
-fon_sound.play()
+player_speed = 10
+player_x = 280
+
+#fon_sound = pygame.mixer.Sound('sounds/')
+#fon_sound.play()
 
 pygame.display.set_icon(icon)
 
@@ -39,8 +44,22 @@ pygame.display.set_icon(icon)
 # это главный игровой цикл который продолжает работать и следит за обновлениями в игре и событиями типа выхода из игры
 while True:
     screen.blit(screen_fon,(fon_x,0))
-    screen.blit(screen_fon,(fon_x - 1200,0))
-    screen.blit(player_walk_left[animation_start],(280,200))
+    screen.blit(screen_fon,(fon_x + 1200,0))
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        screen.blit(player_walk_left[animation_start],(player_x,200))
+    else:
+        screen.blit(player_walk_right[animation_start],(player_x,200))
+        
+    if keys[pygame.K_LEFT] and player_x > -150:
+        player_x = player_x - player_speed
+        print(player_x)
+
+    elif keys[pygame.K_RIGHT] and player_x < 770:
+        player_x = player_x + player_speed
+        print(player_x)
+
     if animation_start == 3:
         animation_start = 0
     else:
@@ -55,3 +74,4 @@ while True:
             pygame.quit()
             sys.exit()
     clock.tick(13)
+
