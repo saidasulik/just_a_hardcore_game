@@ -12,6 +12,9 @@ screen_height = 768 #  переменая высоты экрана
 
 vrag_privedenie_width = 120
 vrag_privedenie_height = 125
+list_privedenie = [
+
+]
 
 # эта команда которая создаёт окно с задаными порамитрами ширины и высоты
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -55,17 +58,24 @@ jump_height = 10
 
 pygame.display.set_icon(icon)
 
+prived_timer = pygame.USEREVENT + 1
+pygame.time.set_timer(prived_timer,3000)
+
 # Main game loop
 # это главный игровой цикл который продолжает работать и следит за обновлениями в игре и событиями типа выхода из игры
 while True:
     screen.blit(screen_fon,(fon_x,0))
     screen.blit(screen_fon,(fon_x + 1200,0))
 
-    screen.blit(vrag_privedenie,(vrag_privedenie_x,vrag_privedenie_y))
+    #screen.blit(vrag_privedenie,(vrag_privedenie_x,vrag_privedenie_y))
     player_hitbox = player_stop.get_rect(topleft = (player_x,player_y))
-    vrag_privedenie_hitbox = vrag_privedenie.get_rect(topleft = (vrag_privedenie_x,vrag_privedenie_y))
-    if player_hitbox.colliderect(vrag_privedenie_hitbox):
-        print("шиш?")
+    #vrag_privedenie_hitbox = vrag_privedenie.get_rect(topleft = (vrag_privedenie_x,vrag_privedenie_y))
+    if list_privedenie:
+        for element in list_privedenie:
+            screen.blit(vrag_privedenie,element)
+            element.x = element.x - 10
+            if player_hitbox.colliderect(element):
+                print("ты шиш?")
 
     keys = pygame.key.get_pressed()
     #условие прорисовки
@@ -110,6 +120,9 @@ while True:
     pygame.display.update()
     # этот цикл следит за выход из игры
     for event in pygame.event.get():
+        if event.type == prived_timer:
+            list_privedenie.append(vrag_privedenie.get_rect(topleft = (1060,460)))
+            print(list_privedenie)
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
