@@ -61,62 +61,74 @@ pygame.display.set_icon(icon)
 prived_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(prived_timer,3000)
 
+game_play = True
+
+loss_text = pygame.font.Font("textS/ofont.ru_Roboto.ttf",40)
+text = loss_text.render("ТЫ ШИШ",False,(255,255,255))
+
 # Main game loop
 # это главный игровой цикл который продолжает работать и следит за обновлениями в игре и событиями типа выхода из игры
 while True:
     screen.blit(screen_fon,(fon_x,0))
     screen.blit(screen_fon,(fon_x + 1200,0))
 
-    #screen.blit(vrag_privedenie,(vrag_privedenie_x,vrag_privedenie_y))
-    player_hitbox = player_stop.get_rect(topleft = (player_x,player_y))
-    #vrag_privedenie_hitbox = vrag_privedenie.get_rect(topleft = (vrag_privedenie_x,vrag_privedenie_y))
-    if list_privedenie:
-        for element in list_privedenie:
-            screen.blit(vrag_privedenie,element)
-            element.x = element.x - 10
-            if player_hitbox.colliderect(element):
-                print("ты шиш?")
+    if game_play:
+        
+        #screen.blit(vrag_privedenie,(vrag_privedenie_x,vrag_privedenie_y))
+        player_hitbox = player_stop.get_rect(topleft = (player_x,player_y))
+        #vrag_privedenie_hitbox = vrag_privedenie.get_rect(topleft = (vrag_privedenie_x,vrag_privedenie_y))
+        if list_privedenie:
+            for element in list_privedenie:
+                screen.blit(vrag_privedenie,element)
+                element.x = element.x - 10
+                if player_hitbox.colliderect(element):
+                    game_play = False
+                    print("ты шиш?")
 
-    keys = pygame.key.get_pressed()
-    #условие прорисовки
-    if keys[pygame.K_LEFT]:
-        screen.blit(player_walk_left[animation_start],(player_x,player_y))
-    elif keys[pygame.K_RIGHT]:
-        screen.blit(player_walk_right[animation_start],(player_x,player_y))
-    else:
-        screen.blit(player_stop,(player_x,player_y))
-
-    #условие передвижения    
-    if keys[pygame.K_LEFT] and player_x > -150:
-        player_x = player_x - player_speed
-        print(player_x)
-
-    elif keys[pygame.K_RIGHT] and player_x < 770:
-        player_x = player_x + player_speed
-        print(player_x)
-
-    if not is_jump:
-        if keys[pygame.K_SPACE]:
-            is_jump = True
-            print('прыжок')
-    else:
-        if jump_height >= -10:
-            if jump_height > 0:
-                player_y = player_y - (jump_height**2) / 2
-            else:
-              player_y = player_y + (jump_height**2) / 2  
-            jump_height = jump_height - 1
+        keys = pygame.key.get_pressed()
+        #условие прорисовки
+        if keys[pygame.K_LEFT]:
+            screen.blit(player_walk_left[animation_start],(player_x,player_y))
+        elif keys[pygame.K_RIGHT]:
+            screen.blit(player_walk_right[animation_start],(player_x,player_y))
         else:
-            is_jump = False
-            jump_height = 10
-    if animation_start == 3:
-        animation_start = 0
+            screen.blit(player_stop,(player_x,player_y))
+
+        #условие передвижения    
+        if keys[pygame.K_LEFT] and player_x > -150:
+            player_x = player_x - player_speed
+            print(player_x)
+
+        elif keys[pygame.K_RIGHT] and player_x < 770:
+            player_x = player_x + player_speed
+            print(player_x)
+
+        if not is_jump:
+            if keys[pygame.K_SPACE]:
+                is_jump = True
+                print('прыжок')
+        else:
+            if jump_height >= -10:
+                if jump_height > 0:
+                    player_y = player_y - (jump_height**2) / 2
+                else:
+                    player_y = player_y + (jump_height**2) / 2  
+                jump_height = jump_height - 1
+            else:
+                is_jump = False
+                jump_height = 10
+        if animation_start == 3:
+            animation_start = 0
+        else:
+            animation_start = animation_start + 1
+        fon_x = fon_x - 5
+        if fon_x == -1200:
+            fon_x = 0
+        vrag_privedenie_x = vrag_privedenie_x - 10
     else:
-        animation_start = animation_start + 1
-    fon_x = fon_x - 5
-    if fon_x == -1200:
-        fon_x = 0
-    vrag_privedenie_x = vrag_privedenie_x - 10
+        screen.fill((0,0,0))
+        screen.blit(text,(440,400))
+
     pygame.display.update()
     # этот цикл следит за выход из игры
     for event in pygame.event.get():
@@ -127,4 +139,3 @@ while True:
             pygame.quit()
             sys.exit()
     clock.tick(13)
-
