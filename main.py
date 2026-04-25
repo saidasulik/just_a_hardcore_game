@@ -74,13 +74,19 @@ while True:
 
     if game_play:
         
-        #screen.blit(vrag_privedenie,(vrag_privedenie_x,vrag_privedenie_y))
-        player_hitbox = player_stop.get_rect(topleft = (player_x,player_y))
-        #vrag_privedenie_hitbox = vrag_privedenie.get_rect(topleft = (vrag_privedenie_x,vrag_privedenie_y))
+        # исправление 1
+        player_hitbox = pygame.Rect(player_x + 150, player_y + 120, 100, 430)
+
         if list_privedenie:
-            for element in list_privedenie:
+            for (index, element) in enumerate(list_privedenie):
                 screen.blit(vrag_privedenie,element)
                 element.x = element.x - 10
+
+                # исправление 2
+                ghost_hitbox = pygame.Rect(element.x + 20, element.y + 20, 80, 85)
+
+                if element.x < -250:
+                    list_privedenie.pop(index)
                 if player_hitbox.colliderect(element):
                     game_play = False
                     print("ты шиш?")
