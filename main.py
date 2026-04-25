@@ -75,7 +75,7 @@ while True:
     if game_play:
         
         # исправление 1
-        player_hitbox = pygame.Rect(player_x + 150, player_y + 120, 100, 430)
+        player_hitbox = pygame.Rect(player_x + 160, player_y + 230, 80, 120)
 
         if list_privedenie:
             for (index, element) in enumerate(list_privedenie):
@@ -83,13 +83,18 @@ while True:
                 element.x = element.x - 10
 
                 # исправление 2
-                ghost_hitbox = pygame.Rect(element.x + 20, element.y + 20, 80, 85)
+                ghost_hitbox = pygame.Rect(element.x + 20, element.y + 20, 80, 70)
 
                 if element.x < -250:
                     list_privedenie.pop(index)
                 if player_hitbox.colliderect(element):
                     game_play = False
                     print("ты шиш?")
+
+
+                pygame.draw.rect(screen, (0, 255, 0), ghost_hitbox, 2)
+
+        pygame.draw.rect(screen, (255, 0, 0), player_hitbox, 2)
 
         keys = pygame.key.get_pressed()
         #условие прорисовки
