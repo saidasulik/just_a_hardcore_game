@@ -64,7 +64,9 @@ pygame.time.set_timer(prived_timer,3000)
 game_play = True
 
 loss_text = pygame.font.Font("textS/ofont.ru_Roboto.ttf",40)
+restart_text = loss_text.render("ИГРАЙ ЗАНАВА,",False,(255,255,255))
 text = loss_text.render("ТЫ ШИШ",False,(255,255,255))
+button_restart = restart_text.get_rect(topleft = (370,300))
 
 # Main game loop
 # это главный игровой цикл который продолжает работать и следит за обновлениями в игре и событиями типа выхода из игры
@@ -140,6 +142,12 @@ while True:
     else:
         screen.fill((0,0,0))
         screen.blit(text,(440,400))
+        screen.blit(restart_text,button_restart)
+        mouse = pygame.mouse.get_pos()
+        if button_restart.collidepoint(mouse) and pygame.mouse.get_pressed()[0]:
+            game_play = True
+            player_x = 280
+            list_privedenie.clear()
 
     pygame.display.update()
     # этот цикл следит за выход из игры
