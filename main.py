@@ -91,9 +91,10 @@ while True:
                     game_play = False
                     print("ты шиш?")
 
-
+                # показать хитбокс врагов
                 pygame.draw.rect(screen, (0, 255, 0), ghost_hitbox, 2)
 
+        # показать хитбокс игрока
         pygame.draw.rect(screen, (255, 0, 0), player_hitbox, 2)
 
         keys = pygame.key.get_pressed()
