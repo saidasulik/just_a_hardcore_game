@@ -20,6 +20,12 @@ list_privedenie = [
 screen = pygame.display.set_mode((screen_width, screen_height))
 # эта команда создаёт название окна
 pygame.display.set_caption("JUST A HARDCORE GAME")
+
+bullet = pygame.transform.scale(pygame.image.load("img/bullet_1.jpg"),(60,33)).convert_alpha()
+bullet_list = [
+
+]
+
 screen_fon = pygame.image.load("img/fon.jpg")
 vrag_privedenie = pygame.transform.scale(pygame.image.load("img/ghost.png"),(vrag_privedenie_width,vrag_privedenie_height))
 
@@ -117,6 +123,21 @@ while True:
             player_x = player_x + player_speed
             print(player_x)
 
+        if keys[pygame.K_RSHIFT]:
+            bullet_list.append(bullet.get_rect(topleft = (player_x + 250,player_y + 260)))
+            
+        if bullet_list:
+            for (index,atbullet) in enumerate(bullet_list):
+                screen.blit(bullet,(atbullet.x,atbullet.y))
+                atbullet.x = atbullet.x + 60
+                if atbullet.x >= screen_width:
+                        bullet_list.pop(index)
+                if list_privedenie:
+                    for (prindex,vrag) in enumerate(list_privedenie):
+                        if atbullet.colliderect(vrag):
+                            bullet_list.pop(index)
+                            list_privedenie.pop(prindex)
+
         if not is_jump:
             if keys[pygame.K_SPACE]:
                 is_jump = True
@@ -148,6 +169,7 @@ while True:
             game_play = True
             player_x = 280
             list_privedenie.clear()
+            bullet_list.clear()
 
     pygame.display.update()
     # этот цикл следит за выход из игры
