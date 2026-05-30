@@ -1,11 +1,17 @@
 import pygame
 import sys
+import os
 clock = pygame.time.Clock()
 pygame.init()
 
+def resource_path(path):
+ if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, path)
+ return os.path.join(os.path.abspath("."), path)
+
 player_height = 583
 player_width = 409
-player_stop = pygame.transform.scale(pygame.image.load("img/player_down/player_stop.png"),(player_width,player_height))
+player_stop = pygame.transform.scale(pygame.image.load(resource_path("assets/img/player_down/player_stop.png")),(player_width,player_height))
 
 screen_width = 1024 # переменная ширины экрана
 screen_height = 768 #  переменая высоты экрана
@@ -21,28 +27,28 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 # эта команда создаёт название окна
 pygame.display.set_caption("JUST A HARDCORE GAME")
 
-bullet = pygame.transform.scale(pygame.image.load("img/bullet_1.jpg"),(60,33)).convert_alpha()
+bullet = pygame.transform.scale(pygame.image.load(resource_path("assets/img/bullet_1.jpg")),(60,33)).convert_alpha()
 bullet_list = [
 
 ]
 
-screen_fon = pygame.image.load("img/fon.jpg")
-vrag_privedenie = pygame.transform.scale(pygame.image.load("img/ghost.png"),(vrag_privedenie_width,vrag_privedenie_height))
+screen_fon = pygame.image.load(resource_path("assets/img/fon.jpg"))
+vrag_privedenie = pygame.transform.scale(pygame.image.load(resource_path("assets/img/ghost.png")),(vrag_privedenie_width,vrag_privedenie_height))
 
-icon = pygame.image.load("img/vecteezy_imaginative-and-lovable-game-character-for-tshirt-graphic_27294895.png")
+icon = pygame.image.load(resource_path("assets/img/vecteezy_imaginative-and-lovable-game-character-for-tshirt-graphic_27294895.png"))
 player_walk_left = [
-    pygame.transform.scale(pygame.image.load("img/player_left/9.png"),(player_width,player_height)),
-    pygame.transform.scale(pygame.image.load("img/player_left/10.png"),(player_width,player_height)),
-    pygame.transform.scale(pygame.image.load("img/player_left/11.png"),(player_width,player_height)),
-    pygame.transform.scale(pygame.image.load("img/player_left/12.png"),(player_width,player_height))
+    pygame.transform.scale(pygame.image.load(resource_path("assets/img/player_left/9.png")),(player_width,player_height)),
+    pygame.transform.scale(pygame.image.load(resource_path("assets/img/player_left/10.png")),(player_width,player_height)),
+    pygame.transform.scale(pygame.image.load(resource_path("assets/img/player_left/11.png")),(player_width,player_height)),
+    pygame.transform.scale(pygame.image.load(resource_path("assets/img/player_left/12.png")),(player_width,player_height))
 
 ]
 player_walk_right = [
 
-    pygame.transform.scale(pygame.image.load("img/player_right/5 (2).png"),(player_width,player_height)),
-    pygame.transform.scale(pygame.image.load("img/player_right/6.png"),(player_width,player_height)),
-    pygame.transform.scale(pygame.image.load("img/player_right/7.png"),(player_width,player_height)),
-    pygame.transform.scale(pygame.image.load("img/player_right/8.png"),(player_width,player_height))
+    pygame.transform.scale(pygame.image.load(resource_path("assets/img/player_right/5 (2).png")),(player_width,player_height)),
+    pygame.transform.scale(pygame.image.load(resource_path("assets/img/player_right/6.png")),(player_width,player_height)),
+    pygame.transform.scale(pygame.image.load(resource_path("assets/img/player_right/7.png")),(player_width,player_height)),
+    pygame.transform.scale(pygame.image.load(resource_path("assets/img/player_right/8.png")),(player_width,player_height))
 
 ]
 
@@ -69,7 +75,7 @@ pygame.time.set_timer(prived_timer,3000)
 
 game_play = True
 
-loss_text = pygame.font.Font("textS/ofont.ru_Roboto.ttf",40)
+loss_text = pygame.font.Font(resource_path("assets/textS/ofont.ru_Roboto.ttf",40))
 restart_text = loss_text.render("ИГРАЙ ЗАНАВА,",False,(255,255,255))
 text = loss_text.render("ТЫ ШИШ",False,(255,255,255))
 button_restart = restart_text.get_rect(topleft = (370,300))
