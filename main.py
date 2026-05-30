@@ -75,7 +75,10 @@ pygame.time.set_timer(prived_timer,3000)
 
 game_play = True
 
-loss_text = pygame.font.Font(resource_path("assets/textS/ofont.ru_Roboto.ttf",40))
+loss_text = pygame.font.Font(
+    resource_path("assets/texts/ofont.ru_Roboto.ttf"),
+    40
+)
 restart_text = loss_text.render("ИГРАЙ ЗАНАВА,",False,(255,255,255))
 text = loss_text.render("ТЫ ШИШ",False,(255,255,255))
 button_restart = restart_text.get_rect(topleft = (370,300))
